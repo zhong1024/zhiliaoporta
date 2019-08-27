@@ -12,12 +12,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class InitController {
 
     @RequestMapping("/")
-    public String inti(){
+    public String inti() {
+
         return "index";
     }
-//
-//    @RequestMapping("/index")
-//    public String initServer(){
-//        return "index";
-//    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @RequestMapping("/prosperity")
+    public String prosperity(){
+        return "prosperity";
+    }
+
+
+
 }
