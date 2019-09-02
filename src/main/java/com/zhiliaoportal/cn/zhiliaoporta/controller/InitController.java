@@ -2,6 +2,7 @@ package com.zhiliaoportal.cn.zhiliaoporta.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author Mr.Zhong
@@ -23,10 +24,20 @@ public class InitController {
     }
 
     @RequestMapping("/prosperity")
-    public String prosperity(){
+    public String prosperity() {
         return "prosperity";
     }
 
+    @RequestMapping(value = "/wifidog/auth" ,method = {RequestMethod.POST, RequestMethod.GET})
+    public String rz() {
+        System.out.println("==========auth==========");
+        return "";
+    }
+
+    @RequestMapping(value = "authpuppy/web/login",method = {RequestMethod.POST, RequestMethod.GET})
+    public void rz1(){
+        System.out.println("==========authpuppy=========");
+    }
 
 
 }

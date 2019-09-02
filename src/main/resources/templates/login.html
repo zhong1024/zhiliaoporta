@@ -18,10 +18,12 @@
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <script src="../static/js/jquery.min.js"></script>
     <![endif]-->
+
 </head>
 <body>
 
-<!--<div id="text"></div>-->
+<div id="text"></div>
+
 <!--<div class="layui-fluid">-->
 <!--<div class="layui-row">-->
 <!--<form class="layui-form">-->
@@ -40,15 +42,22 @@
 <!--</div>-->
 <!--</div>-->
 
+<!--http://wportal.meauth.cn:2060/?username=admin&password=admin&vlan=192.168.1.1&staMac=68:3E:34:F5:8F:DB&staIp=192.168.1.155&APMac=68:3E:34:F5:8F:DB&apIp=192.168.1-->
+<!--.155-->
+<!--http://wportal.meauth.cn:2060/wifidog/auth?token=4f473ae3d-->
 
-<form action="http://wportal.meauth.cn:2060/wifidog/auth?token=4f473ae3ddc5c1c2165f7a0973c57a98" method="get">
+<!--<form action="http://wportal.meauth.cn:8080/wifidog/auth/?authtype=web&stage=login&token=968ada10592aede85e804c71ed527e5c&gw_id=br- -->
+<!--lan&gw_address=wportal.meauth.cn&gw_port=2060&ip=192.168.1.190&mac=FC%3AAA%3A14%3AD0%3A53%3A52&url=' -H 'Accept: text/html,application/xhtml-->
+<!--+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Referer: http://wportal.meauth.cn:8080/wifidog/login/?gw_address=192.168.1.1&gw_port=2060&gw_id=br- -->
+<!--lan&ip=192.168.1.190&mac=FC:AA:14:D0:53:52&url=http%3A%2F%2Fwportal.meauth.cn%3A2060%2F' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64)-->
+<!--AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'" method="get">-->
+<form action="http://wportal.meauth.cn:8080/wifidog/auth/?authtype=web&stage=login&token=968ada10592aede85e804c71ed527e5c&gw_id=br-
+lan&gw_address=wportal.meauth.cn&gw_port=2060&ip=192.168.1.190&mac=FC%3AAA%3A14%3AD0%3A53%3A52&url=" method="get">
     <input type="text" value="请输入验证码">
     <br>
     <input type="submit" value="提交">
 </form>
 
-
-<!--<a href="http://192.168.1.1:2060/wifidog/auth?token=4f473ae3ddc5c1c2165f7a0973c57a98" >提交</a>-->
 
 <script>layui.use(['form', 'layer', 'jquery'],
     function () {
@@ -72,7 +81,7 @@
                 var sole = $('#sole').val();
                 $.ajax({
                     type: "get",
-                    url: 'http://192.168.1.1:2060/wifidog/auth?token=4f473ae3ddc5c1c2165f7a0973c57a98',
+                    url: 'http://192.168.1.1:2060/wifidog/auth?token=4f473ae',
                     data: {"sole": sole},
                     success: function (data) {
                     }
@@ -104,10 +113,11 @@
 
 </html>
 
-<!--<script>-->
-<!--window.onload = function () {-->
-<!--$('#text').text(window.location.search.substring(1));-->
-<!--console.log(window.location.search.substring(1));-->
-<!--console.log('....');-->
-<!--}-->
-<!--</script>-->
+
+<script>
+    window.onload = function () {
+        $('#text').text(window.location.search.substring(1));
+        console.log(window.location.search.substring(1));
+        console.log('....');
+    }
+</script>
