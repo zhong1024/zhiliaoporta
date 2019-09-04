@@ -1,7 +1,5 @@
 package com.zhiliaoportal.cn.zhiliaoporta.server;
 
-
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 import io.netty.buffer.ByteBuf;
@@ -9,9 +7,9 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.DatagramPacket;
+import io.netty.util.CharsetUtil;
 
 import static com.zhiliaoportal.cn.zhiliaoporta.util.Hex22String.arr2HexStr;
-import static com.zhiliaoportal.cn.zhiliaoporta.util.Hex22String.hexStr2Str;
 
 /**
  * 控制器
@@ -37,43 +35,26 @@ public class ServerHandler extends SimpleChannelInboundHandler<DatagramPacket> {
         buf.readBytes(req);
 
 
-        String be = arr2HexStr(req,false);
-        System.out.println("GET DATA Hex:"+be);
+        String be = arr2HexStr(req, false);
+        System.out.println("GET DATA Hex:" + be);
 
         System.out.println(be.length());
 
         String str = new String(req, "UTF-8");
-        System.out.println("GET DATA String　："+str);
+        System.out.println("GET DATA String　：" + str);
 
 
-        if (str.equalsIgnoreCase("L")) {
-            //保存到addr1中 并发送addr2
-            addr1 = packet.sender();
-            System.out.println("L 命令， 保存到addr1中 ");
-        } else if (str.equalsIgnoreCase("R")) {
-            //保存到addr2中 并发送addr1
-            addr2 = packet.sender();
-            System.out.println("R 命令， 保存到addr2中 ");
-        } else if (str.equalsIgnoreCase("M")) {
-            //addr1 -> addr2
-            String remot = "A " + addr2.getAddress().toString().replace("/", "")
-                    + " " + addr2.getPort();
-            ctx.writeAndFlush(new DatagramPacket(
-                    Unpooled.copiedBuffer(remot.getBytes()), addr1));
-            //addr2 -> addr1
-            remot = "A " + addr1.getAddress().toString().replace("/", "")
-                    + " " + addr1.getPort();
-            ctx.writeAndFlush(new DatagramPacket(
-                    Unpooled.copiedBuffer(remot.getBytes()), addr2));
-            System.out.println("M 命令");
-        }
+        ctx.writeAndFlush(new DatagramPacket(
+                Unpooled.copiedBuffer("02", CharsetUtil.UTF_8), packet.sender()
+        )).sync();
+
+
 
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("============Server Start============");
-
         super.channelActive(ctx);
     }
 }

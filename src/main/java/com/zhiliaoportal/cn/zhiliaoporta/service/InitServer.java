@@ -23,10 +23,10 @@ public class InitServer {
     @PostConstruct
     public void init() {
 
-        new Thread(() -> {
-            Server server = new Server();
-            server.init();
-        }).start();
+//        new Thread(() -> {
+//            Server server = new Server();
+//            server.init();
+//        }).start();
 
     }
 

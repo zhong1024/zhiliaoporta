@@ -17,6 +17,7 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <script src="../static/js/jquery.min.js"></script>
+
     <![endif]-->
 
 </head>
@@ -24,42 +25,56 @@
 
 <div id="text"></div>
 
-<!--<div class="layui-fluid">-->
-<!--<div class="layui-row">-->
-<!--<form class="layui-form">-->
-<!--<div class="layui-form-item">-->
-<!--<label for="sole" class="layui-form-label">-->
-<!--<span class="x-red">*</span>请输入验证码</label>-->
-<!--<div class="layui-input-inline">-->
-<!--<input type="text" id="sole" name="username" required="" lay-verify="nikename"-->
-<!--autocomplete="off" class="layui-input"></div>-->
-<!--</div>-->
-<!--<div class="layui-form-item">-->
-<!--<label for="sole" class="layui-form-label"></label>-->
-<!--<button class="layui-btn" lay-filter="submit" lay-submit="">登陆</button>-->
-<!--</div>-->
-<!--</form>-->
-<!--</div>-->
-<!--</div>-->
-
-<!--http://wportal.meauth.cn:2060/?username=admin&password=admin&vlan=192.168.1.1&staMac=68:3E:34:F5:8F:DB&staIp=192.168.1.155&APMac=68:3E:34:F5:8F:DB&apIp=192.168.1-->
-<!--.155-->
-<!--http://wportal.meauth.cn:2060/wifidog/auth?token=4f473ae3d-->
-
-<!--<form action="http://wportal.meauth.cn:8080/wifidog/auth/?authtype=web&stage=login&token=968ada10592aede85e804c71ed527e5c&gw_id=br- -->
-<!--lan&gw_address=wportal.meauth.cn&gw_port=2060&ip=192.168.1.190&mac=FC%3AAA%3A14%3AD0%3A53%3A52&url=' -H 'Accept: text/html,application/xhtml-->
-<!--+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Referer: http://wportal.meauth.cn:8080/wifidog/login/?gw_address=192.168.1.1&gw_port=2060&gw_id=br- -->
-<!--lan&ip=192.168.1.190&mac=FC:AA:14:D0:53:52&url=http%3A%2F%2Fwportal.meauth.cn%3A2060%2F' -H 'User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64)-->
-<!--AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36'" method="get">-->
-<form action="http://wportal.meauth.cn:8080/wifidog/auth/?authtype=web&stage=login&token=968ada10592aede85e804c71ed527e5c&gw_id=br-
-lan&gw_address=wportal.meauth.cn&gw_port=2060&ip=192.168.1.190&mac=FC%3AAA%3A14%3AD0%3A53%3A52&url=" method="get">
-    <input type="text" value="请输入验证码">
-    <br>
-    <input type="submit" value="提交">
+<div class="layui-fluid">
+<div class="layui-row">
+<form class="layui-form">
+<div class="layui-form-item">
+<label for="sole" class="layui-form-label">
+<span class="x-red">*</span>请输入验证码</label>
+<div class="layui-input-inline">
+<input type="text" id="sole" name="username" required="" lay-verify="nikename"
+autocomplete="off" class="layui-input"></div>
+</div>
+<div class="layui-form-item">
+<label for="sole" class="layui-form-label"></label>
+<button class="layui-btn" lay-filter="submit" lay-submit="">登陆</button>
+</div>
 </form>
+</div>
+</div>
 
 
-<script>layui.use(['form', 'layer', 'jquery'],
+<!--<form action=url method="get">-->
+    <!--<input type="text" value="请输入验证码">-->
+    <!--<br>-->
+    <!--<input type="submit" value="提交">-->
+<!--</form>-->
+
+
+<script>
+
+    wportalPara = '';
+
+    const toJson = function (urlGetParams) {
+        const param = urlGetParams.split('&');
+        const object = {};
+        for(const v of param) {
+            const tmp = v.split('=');
+            object[tmp[0]] = tmp[1];
+        }
+        return object //JSON.stringify(object);
+    };
+
+    window.onload = function () {
+        const urlParams =  window.location.search.substring(1);
+        wportalPara = toJson(urlParams);
+        if(wportalPara.token!=undefined)
+            alert(wportalPara.token);
+        console.log(wportalPara);
+    }
+
+
+    layui.use(['form', 'layer', 'jquery'],
     function () {
         $ = layui.jquery;
         var form = layui.form,
@@ -81,23 +96,28 @@ lan&gw_address=wportal.meauth.cn&gw_port=2060&ip=192.168.1.190&mac=FC%3AAA%3A14%
                 var sole = $('#sole').val();
                 $.ajax({
                     type: "get",
-                    url: 'http://192.168.1.1:2060/wifidog/auth?token=4f473ae',
+                    url: "http://wportal.meauth.cn:8080/wifidog/logincheck/?authtype=web&user=admins&pwd=admins&gw_id=br-" +
+                    "lan&gw_address=wportal.meauth.cn&gw_port=2060&ip="+wportalPara.ip+"&mac="+wportalPara.mac+"&url="+wportalPara.url,
                     data: {"sole": sole},
                     success: function (data) {
+                        console.log(data);
                     }
                 })
+                // alert(wportalPara.ip);
                 //发异步，把数据提交给
                 layer.alert("网络连接成功", {
                         icon: 6
-                    },
-                    function () {
-                        //关闭当前frame
-                        xadmin.close();
-                        // 成功后到提示页面
-                        location.href = "/prosperity";
-                        // 可以对父窗口进行刷新
-                        // xadmin.father_reload();
-                    });
+                    }
+                    // ,
+                    // function () {
+                    //     //关闭当前frame
+                    //     xadmin.close();
+                    //     // 成功后到提示页面
+                    //     location.href = "/prosperity";
+                    //     // 可以对父窗口进行刷新
+                    //     // xadmin.father_reload();
+                    // }
+                );
                 return false;
             });
 
@@ -112,12 +132,3 @@ lan&gw_address=wportal.meauth.cn&gw_port=2060&ip=192.168.1.190&mac=FC%3AAA%3A14%
 </body>
 
 </html>
-
-
-<script>
-    window.onload = function () {
-        $('#text').text(window.location.search.substring(1));
-        console.log(window.location.search.substring(1));
-        console.log('....');
-    }
-</script>
