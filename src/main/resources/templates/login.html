@@ -26,28 +26,28 @@
 <div id="text"></div>
 
 <div class="layui-fluid">
-<div class="layui-row">
-<form class="layui-form">
-<div class="layui-form-item">
-<label for="sole" class="layui-form-label">
-<span class="x-red">*</span>请输入验证码</label>
-<div class="layui-input-inline">
-<input type="text" id="sole" name="username" required="" lay-verify="nikename"
-autocomplete="off" class="layui-input"></div>
-</div>
-<div class="layui-form-item">
-<label for="sole" class="layui-form-label"></label>
-<button class="layui-btn" lay-filter="submit" lay-submit="">登陆</button>
-</div>
-</form>
-</div>
+    <div class="layui-row">
+        <form class="layui-form">
+            <div class="layui-form-item">
+                <label for="sole" class="layui-form-label">
+                    <span class="x-red">*</span>请输入验证码</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="sole" name="username" required="" lay-verify="nikename"
+                           autocomplete="off" class="layui-input"></div>
+            </div>
+            <div class="layui-form-item">
+                <label for="sole" class="layui-form-label"></label>
+                <button class="layui-btn" lay-filter="submit" lay-submit="">登陆</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 
 <!--<form action=url method="get">-->
-    <!--<input type="text" value="请输入验证码">-->
-    <!--<br>-->
-    <!--<input type="submit" value="提交">-->
+<!--<input type="text" value="请输入验证码">-->
+<!--<br>-->
+<!--<input type="submit" value="提交">-->
 <!--</form>-->
 
 
@@ -58,7 +58,7 @@ autocomplete="off" class="layui-input"></div>
     const toJson = function (urlGetParams) {
         const param = urlGetParams.split('&');
         const object = {};
-        for(const v of param) {
+        for (const v of param) {
             const tmp = v.split('=');
             object[tmp[0]] = tmp[1];
         }
@@ -66,62 +66,64 @@ autocomplete="off" class="layui-input"></div>
     };
 
     window.onload = function () {
-        const urlParams =  window.location.search.substring(1);
+
+        const urlParams = window.location.search.substring(1);
+        console.log(urlParams)
+        console.log(window.location.href)
         wportalPara = toJson(urlParams);
-        if(wportalPara.token!=undefined)
-            alert(wportalPara.token);
+        if (wportalPara.token != undefined){
+
+        }
         console.log(wportalPara);
     }
 
 
     layui.use(['form', 'layer', 'jquery'],
-    function () {
-        $ = layui.jquery;
-        var form = layui.form,
-            layer = layui.layer;
-        //自定义验证规则
-        form.verify({
-            nikename: function (value) {
-                if (value.length < 4) {
-                    return '无效验证码请重新输入！';
+        function () {
+            $ = layui.jquery;
+            var form = layui.form,
+                layer = layui.layer;
+            //自定义验证规则
+            form.verify({
+                nikename: function (value) {
+                    if (value.length < 4) {
+                        return '无效验证码请重新输入！';
+                    }
                 }
-            }
-        });
-
-        //监听提交
-        form.on('submit(submit)',
-            function (data) {
-                console.log(data);
-
-                var sole = $('#sole').val();
-                $.ajax({
-                    type: "get",
-                    url: "http://wportal.meauth.cn:8080/wifidog/logincheck/?authtype=web&user=admins&pwd=admins&gw_id=br-" +
-                    "lan&gw_address=wportal.meauth.cn&gw_port=2060&ip="+wportalPara.ip+"&mac="+wportalPara.mac+"&url="+wportalPara.url,
-                    data: {"sole": sole},
-                    success: function (data) {
-                        console.log(data);
-                    }
-                })
-                // alert(wportalPara.ip);
-                //发异步，把数据提交给
-                layer.alert("网络连接成功", {
-                        icon: 6
-                    }
-                    // ,
-                    // function () {
-                    //     //关闭当前frame
-                    //     xadmin.close();
-                    //     // 成功后到提示页面
-                    //     location.href = "/prosperity";
-                    //     // 可以对父窗口进行刷新
-                    //     // xadmin.father_reload();
-                    // }
-                );
-                return false;
             });
 
-    });</script>
+            //监听提交
+            form.on('submit(submit)',
+                function (data) {
+                    console.log(data);
+                    var sole = $('#sole').val();
+                    $.ajax({
+                        type: "get",
+                        url: "/prosperity",
+                        data: {"mac": wportalPara.mac},
+                        success: function (data) {
+                            console.log(data);
+                        }
+                    })
+                    // alert(wportalPara.ip);
+                    //发异步，把数据提交给
+                    layer.alert("网络连接成功", {
+                            icon: 6
+                        }
+                        // ,
+                        // function () {
+                        //     //关闭当前frame
+                        //     xadmin.close();
+                        //     // 成功后到提示页面
+                        //     location.href = "/prosperity";
+                        //     // 可以对父窗口进行刷新
+                        //     // xadmin.father_reload();
+                        // }
+                    );
+                    return false;
+                });
+
+        });</script>
 <script>var _hmt = _hmt || [];
 (function () {
     var hm = document.createElement("script");
