@@ -19,16 +19,10 @@ public class Maps {
      *
      * @param datas
      */
-    public static void addMap(Datas datas) {
+    public static boolean addMap(Datas datas) {
 
         if (ModeList.cmds.size() == 0) {
             ModeList.cmds.put(System.currentTimeMillis(), datas);
-            try {
-                HttpApi.Get(datas);
-            } catch (final Exception e) {
-                e.printStackTrace();
-            }
-            System.out.println("添加一条信息：" + datas.toString());
         } else {
             int s = 0;
             for (long keys : ModeList.cmds.keySet()) {
@@ -39,23 +33,16 @@ public class Maps {
             }
             if (s == ModeList.cmds.size()) {
                 ModeList.cmds.put(System.currentTimeMillis(), datas);
-                try {
-                    HttpApi.Get(datas);
-                } catch (final Exception e) {
-                    e.printStackTrace();
-                }
-                System.out.println("添加一条信息：" + datas.toString());
             } else {
                 try {
-                    Datas datas1 = new Datas();
-                    datas1.setType(2);
-                    HttpApi.Get(datas1);
+                    return false;
                 } catch (final Exception e) {
                     e.printStackTrace();
                 }
             }
         }
 
+        return true;
 
     }
 
@@ -65,11 +52,12 @@ public class Maps {
      * @param keys
      */
     public static void removeMap(long keys) {
-        Datas datas = new Datas();
+        Datas datas;
         datas = ModeList.cmds.get(keys);
-        if (datas.getType() == 1) {
-            HttpApi.Get(datas);
-        }
+        System.out.println("REMOVE:" + datas);
+//        if (datas.getType() == 1) {
+//            HttpApi.Get(datas);
+//        }
         ModeList.cmds.remove(keys);
         //  实体
     }

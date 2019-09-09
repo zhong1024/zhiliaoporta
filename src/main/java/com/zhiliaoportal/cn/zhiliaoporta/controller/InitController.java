@@ -3,10 +3,8 @@ package com.zhiliaoportal.cn.zhiliaoporta.controller;
 import com.zhiliaoportal.cn.zhiliaoporta.mode.Datas;
 import com.zhiliaoportal.cn.zhiliaoporta.mode.ModeList;
 import com.zhiliaoportal.cn.zhiliaoporta.service.Maps;
-import com.zhiliaoportal.cn.zhiliaoporta.util.HttpClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,15 +17,20 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class InitController {
 
+
     @RequestMapping("/")
     public String inti() {
-
         return "index";
     }
 
 
+    /**
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/login")
-    public void login(HttpServletRequest request) throws Exception {
+    public String login(HttpServletRequest request) throws Exception {
 
         Datas datas = new Datas();
         datas.setUrl(request.getParameter("url"));
@@ -38,11 +41,21 @@ public class InitController {
         datas.setGw_port(request.getParameter("gw_port"));
         datas.setToken(request.getParameter("token"));
         datas.setAuthtype(request.getParameter("authtype"));
-        datas.setType(0);
-        datas.setUser("users");
-        datas.setPwd("users");
+//        datas.setType(0);
+//        datas.setUser("users");
+//        datas.setPwd("users");
 
-        Maps.addMap(datas);
+        HttpSession session = request.getSession();
+        session.setAttribute("mac", datas.getMac());
+
+
+        if (Maps.addMap(datas)) {
+            //  ok
+        } else {
+            //  判断是否重复链接
+        }
+
+        return "login";
 
     }
 
@@ -50,33 +63,28 @@ public class InitController {
     @RequestMapping("/TologinOK")
     public String loginOK(HttpServletRequest request) {
 
-        String ip = request.getHeader("x-real-ip");
-        if (ip == null) {
-            ip = request.getRemoteAddr();
-        }
-        // 过滤反向代理的IP
-        String[] stemps = ip.split(",");
-        if (stemps != null && stemps.length >= 1) {
-            // 得到第一个IP，即客户端真实IP
-            ip = stemps[0];
-        }
-        ip = ip.trim();
-        if (ip.length() > 23) {
-            ip = ip.substring(0, 23);
-        }
+        System.out.println("____===____");
+//        String ip = request.getHeader("x-real-ip");
+//        if (ip == null) {
+//            ip = request.getRemoteAddr();
+//        }
+//        // 过滤反向代理的IP
+//        String[] stemps = ip.split(",");
+//        if (stemps != null && stemps.length >= 1) {
+//            // 得到第一个IP，即客户端真实IP
+//            ip = stemps[0];
+//        }
+//        ip = ip.trim();
+//        if (ip.length() > 23) {
+//            ip = ip.substring(0, 23);
+//        }
+//
+//        HttpSession session = request.getSession();
+//        session.setAttribute("ip", ip);
+//        System.out.println("IP:" + ip);
 
-        HttpSession session = request.getSession();
-        session.setAttribute("ip", ip);
-        System.out.println("IP:" + ip);
+        return "prosperity";
 
-        return "login";
-
-    }
-
-
-    @RequestMapping("TologinUP")
-    public String loginUP() {
-        return "loginUP";
     }
 
 
@@ -86,7 +94,7 @@ public class InitController {
         HttpSession session = request.getSession();
         String ip = (String) session.getAttribute("ip");
 
-        System.out.println("IP--"+ip);
+        System.out.println("IP--" + ip);
 
         Datas datas = new Datas();
         for (long keys : ModeList.cmds.keySet()) {
@@ -104,50 +112,6 @@ public class InitController {
         System.out.println("DATA:" + datas);
 
         return "prosperity";
-    }
-
-
-    @RequestMapping("/text")
-    public void text(){
-        System.out.println("START");
-
-        Datas datas = new Datas();
-        datas.setType(2);
-        HttpClient.doGet(datas);
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @RequestMapping(value = "/wifidog/auth", method = {RequestMethod.POST, RequestMethod.GET})
-    public String rz() {
-        System.out.println("==========auth==========");
-        return "";
-    }
-
-    @RequestMapping(value = "authpuppy/web/login", method = {RequestMethod.POST, RequestMethod.GET})
-    public void rz1() {
-        System.out.println("==========authpuppy=========");
     }
 
 

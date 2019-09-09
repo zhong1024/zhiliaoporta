@@ -36,7 +36,7 @@ public class Patrol {
                    Maps.removeMap(keys);
                 } else {
                     //  没有超时的用户
-                    System.out.println("__");
+//                    System.out.println("__");
                 }
             }
         }).start();

@@ -20,23 +20,33 @@
 
     <![endif]-->
 
+    <style>
+        .text01 {
+            width: 500px;
+            padding: 20px;
+        }
+    </style>
+
+
 </head>
 <body>
 
 <div id="text"></div>
 
+<div class="text01">请关注公众号并从公众号中获取验证码即可连接网络</div>
+
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form">
+        <form class="layui-form" action="/bigbang">
             <div class="layui-form-item">
-                <label for="sole" class="layui-form-label">
+                <label for="code" class="layui-form-label">
                     <span class="x-red">*</span>请输入验证码</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="sole" name="username" required="" lay-verify="nikename"
+                    <input type="text" id="code" name="username" required="" lay-verify="nikename"
                            autocomplete="off" class="layui-input"></div>
             </div>
             <div class="layui-form-item">
-                <label for="sole" class="layui-form-label"></label>
+                <label for="code" class="layui-form-label"></label>
                 <button class="layui-btn" lay-filter="submit" lay-submit="">登陆</button>
             </div>
         </form>
@@ -44,8 +54,8 @@
 </div>
 
 
-<!--<form action=url method="get">-->
-<!--<input type="text" value="请输入验证码">-->
+<!--<form action="/bigbang" method="post">-->
+<!--<input type="text" id="code" value="请输入验证码">-->
 <!--<br>-->
 <!--<input type="submit" value="提交">-->
 <!--</form>-->
@@ -53,29 +63,29 @@
 
 <script>
 
-    wportalPara = '';
-
-    const toJson = function (urlGetParams) {
-        const param = urlGetParams.split('&');
-        const object = {};
-        for (const v of param) {
-            const tmp = v.split('=');
-            object[tmp[0]] = tmp[1];
-        }
-        return object //JSON.stringify(object);
-    };
-
-    window.onload = function () {
-
-        const urlParams = window.location.search.substring(1);
-        console.log(urlParams)
-        console.log(window.location.href)
-        wportalPara = toJson(urlParams);
-        if (wportalPara.token != undefined){
-
-        }
-        console.log(wportalPara);
-    }
+    // wportalPara = '';
+    //
+    // const toJson = function (urlGetParams) {
+    //     const param = urlGetParams.split('&');
+    //     const object = {};
+    //     for (const v of param) {
+    //         const tmp = v.split('=');
+    //         object[tmp[0]] = tmp[1];
+    //     }
+    //     return object //JSON.stringify(object);
+    // };
+    //
+    // window.onload = function () {
+    //
+    //     const urlParams = window.location.search.substring(1);
+    //     console.log(urlParams)
+    //     console.log(window.location.href)
+    //     wportalPara = toJson(urlParams);
+    //     if (wportalPara.token != undefined) {
+    //
+    //     }
+    //     console.log(wportalPara);
+    // }
 
 
     layui.use(['form', 'layer', 'jquery'],
@@ -92,15 +102,15 @@
                 }
             });
 
-            //监听提交
+            // 监听提交
             form.on('submit(submit)',
                 function (data) {
                     console.log(data);
                     var sole = $('#sole').val();
                     $.ajax({
-                        type: "get",
-                        url: "/prosperity",
-                        data: {"mac": wportalPara.mac},
+                        type: "post",
+                        url: "/bigbang",
+                        data: {"code": document.getElementById('code').value},
                         success: function (data) {
                             console.log(data);
                         }
