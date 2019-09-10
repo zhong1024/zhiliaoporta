@@ -27,9 +27,8 @@ public class ServiceController {
      */
     @RequestMapping("/bigbang")
     @ResponseBody
-    public void conter(HttpServletRequest request, HttpServletResponse response) {
+    public String conter(HttpServletRequest request, HttpServletResponse response) {
 
-        Map<String, Object> map = new HashMap<>();
         HttpSession session = request.getSession();
         String mac = (String) session.getAttribute("mac");
 
@@ -50,19 +49,30 @@ public class ServiceController {
             if (datas.getMac() != null && datas.getIp() != null) {
                 String keys = String.valueOf(ModeList.total % 10);
                 try {
-                    map.put("type", "登陆成功");
                     ModeList.total++;
                     response.sendRedirect("http://" + datas.getGw_address() + ":8080/wifidog/logincheck/?authtype=web&user=" + ModeList.user.get(keys).getUser() + "&pwd=" + ModeList.user.get(keys).getPwd() + "&gw_id=br-lan&" +
                             "gw_address=" + datas.getGw_address() + "&gw_port=" + datas.getGw_port() + "&ip=" + datas.getIp() + "&mac=" + datas.getMac() + "+&url=" + datas.getUrl());
+                    return "true";
                 } catch (final Exception e) {
                     e.printStackTrace();
                 }
             } else {
-                map.put("type", "登陆失败");
+                return "error";
             }
+        } else {
+            return "false";
         }
-//        return map;
+        return "true";
     }
+
+
+
+    @RequestMapping("/ToError")
+    public String ToError(){
+
+        return "error";
+    }
+
 
 
 }

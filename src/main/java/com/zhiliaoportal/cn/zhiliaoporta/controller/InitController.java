@@ -60,7 +60,7 @@ public class InitController {
     }
 
 
-    @RequestMapping("/TologinOK")
+    @RequestMapping("/ToWin")
     public String loginOK(HttpServletRequest request) {
 
         System.out.println("____===____");

@@ -19,19 +19,8 @@
     <script src="../static/js/jquery.min.js"></script>
 
     <![endif]-->
-
-    <style>
-        .text01 {
-            width: 500px;
-            padding: 20px;
-        }
-    </style>
-
-
 </head>
 <body>
-
-<div id="text"></div>
 
 <div class="text01">请关注公众号并从公众号中获取验证码即可连接网络</div>
 
@@ -42,8 +31,9 @@
                 <label for="code" class="layui-form-label">
                     <span class="x-red">*</span>请输入验证码</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="code" name="username" required="" lay-verify="nikename"
-                           autocomplete="off" class="layui-input"></div>
+                    <input type="text" id="code" name="code" required="" lay-verify="nikename"
+                           autocomplete="off" class="layui-input">
+                </div>
             </div>
             <div class="layui-form-item">
                 <label for="code" class="layui-form-label"></label>
@@ -52,17 +42,12 @@
         </form>
     </div>
 </div>
-
-
 <!--<form action="/bigbang" method="post">-->
 <!--<input type="text" id="code" value="请输入验证码">-->
 <!--<br>-->
 <!--<input type="submit" value="提交">-->
 <!--</form>-->
-
-
 <script>
-
     // wportalPara = '';
     //
     // const toJson = function (urlGetParams) {
@@ -86,8 +71,6 @@
     //     }
     //     console.log(wportalPara);
     // }
-
-
     layui.use(['form', 'layer', 'jquery'],
         function () {
             $ = layui.jquery;
@@ -106,30 +89,43 @@
             form.on('submit(submit)',
                 function (data) {
                     console.log(data);
-                    var sole = $('#sole').val();
+                    // var sole = $('#sole').val();
                     $.ajax({
-                        type: "post",
-                        url: "/bigbang",
-                        data: {"code": document.getElementById('code').value},
-                        success: function (data) {
-                            console.log(data);
+                            type: "get",
+                            url: "/bigbang",
+                            data: {"code": document.getElementById('code').value},
+                            success: function (data) {
+                                alert(data)
+                                if (data == "false") {
+                                    layer.msg('验证码错误请重新输入', {icon: 2});
+                                } else if (data == "error") {
+                                    window.location.href = "/ToError";
+                                } else {
+                                    window.location.href = "/ToWin";
+                                }
+                            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                window.location.href = "/ToWin";
+                                // alert(XMLHttpRequest.status);
+                                // alert(XMLHttpRequest.readyState);
+                                // alert(textStatus);
+                            }
                         }
-                    })
+                    )
                     // alert(wportalPara.ip);
                     //发异步，把数据提交给
-                    layer.alert("网络连接成功", {
-                            icon: 6
-                        }
-                        // ,
-                        // function () {
-                        //     //关闭当前frame
-                        //     xadmin.close();
-                        //     // 成功后到提示页面
-                        //     location.href = "/prosperity";
-                        //     // 可以对父窗口进行刷新
-                        //     // xadmin.father_reload();
-                        // }
-                    );
+                    // layer.alert("网络连接成功", {
+                    //         icon: 6
+                    //     }
+                    // ,
+                    // function () {
+                    //     //关闭当前frame
+                    //     xadmin.close();
+                    //     // 成功后到提示页面
+                    //     location.href = "/prosperity";
+                    //     // 可以对父窗口进行刷新
+                    //     // xadmin.father_reload();
+                    // }
+                    // );
                     return false;
                 });
 
