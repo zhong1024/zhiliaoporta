@@ -1,7 +1,7 @@
 package com.zhiliaoportal.cn.zhiliaoporta.mode;
 
 /**
- * 验证信息
+ * 验证信息持久化实现类
  *
  * @author Mr.Zhong
  * @create2019-09-09 15:13

@@ -1,15 +1,16 @@
 package com.zhiliaoportal.cn.zhiliaoporta.controller;
 
-import com.zhiliaoportal.cn.zhiliaoporta.mode.Datas;
 import com.zhiliaoportal.cn.zhiliaoporta.mode.ModeList;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
+ * Controller控制器
+ *
  * @author Mr.Zhong
  * @create2019-09-09 10:13
  */
@@ -18,6 +19,8 @@ public class ServiceController {
 
 
     /**
+     * 接收验证信息并实现验证
+     *
      * @param request
      * @param response
      * @return
@@ -25,44 +28,26 @@ public class ServiceController {
     @RequestMapping("/bigbang")
     @ResponseBody
     public String conter(HttpServletRequest request, HttpServletResponse response) {
-
-        HttpSession session = request.getSession();
-        String mac = (String) session.getAttribute("mac");
+//        HttpSession session = request.getSession();
+//        String mac = (String) session.getAttribute("mac");
 
         String code = request.getParameter("code");
 
         /**
          *验证码验证
          */
-        Datas datas = new Datas();
-        if ("1256".equals(code)) {
-            for (long keys : ModeList.cmds.keySet()) {
-                if (mac.equals(ModeList.cmds.get(keys).getMac())) {
-                    ModeList.cmds.get(keys).setType(1);
-//                    datas = ModeList.cmds.get(keys);
-                    try {
-                        //Maps.removeMap(keys);   //数据添加后移除
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        for (long key : ModeList.codes.keySet()) {
+            if (code.equals(ModeList.codes.get(key).getCode())) {
+                for (long keys : ModeList.cmds.keySet()) {
+                    if (ModeList.codes.get(key).getIp().equals(ModeList.cmds.get(keys).getIp())) {
+                        ModeList.cmds.get(keys).setType(1);
+                        break;
                     }
-                    break;
                 }
+                break;
+            } else {
+                return "false";
             }
-//            if (datas.getMac() != null && datas.getIp() != null) {
-//                String keys = String.valueOf(ModeList.total % 10);
-//                try {
-//                    ModeList.total++;
-//                    response.sendRedirect("http://" + datas.getGw_address() + ":8080/wifidog/logincheck/?authtype=web&user=" + ModeList.user.get(keys).getUser() + "&pwd=" + ModeList.user.get(keys).getPwd() + "&gw_id=" + datas.getGw_id() + "&" +
-//                            "gw_address=" + datas.getGw_address() + "&gw_port=" + datas.getGw_port() + "&ip=" + datas.getIp() + "&mac=" + datas.getMac() + "+&url=" + datas.getUrl());
-//                    return "true";
-//                } catch (final Exception e) {
-//                    e.printStackTrace();
-//                }
-//            } else {
-//                return "error";
-//            }
-        } else {
-            return "false";
         }
         return "true";
     }
@@ -75,7 +60,6 @@ public class ServiceController {
      */
     @RequestMapping("/ToError")
     public String ToError() {
-
         return "error";
     }
 

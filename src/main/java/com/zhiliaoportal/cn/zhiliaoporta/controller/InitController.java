@@ -7,11 +7,14 @@ import com.zhiliaoportal.cn.zhiliaoporta.service.Maps;
 import com.zhiliaoportal.cn.zhiliaoporta.util.HttpApi;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
+ * Controller控制器
+ *
  * @author Mr.Zhong
  * @create2019-08-13 9:25
  */
@@ -27,6 +30,8 @@ public class InitController {
 
 
     /**
+     * 接收路由器转发过来的信息
+     *
      * @param request
      * @return
      * @throws Exception
@@ -49,19 +54,19 @@ public class InitController {
 
         HttpSession session = request.getSession();
         session.setAttribute("mac", datas.getMac());
-
-
-        if (Maps.addMap(datas)) {
+        if (Maps.addMap(datas) && datas.getMac() != null) {
             HttpApi.Get(datas);
-            //  ok
-        } else {
-            //  判断是否重复链接
         }
-
         return "login";
 
     }
 
+    /**
+     * 转发到登陆成功界面
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping("/ToWin")
     public String loginOK(HttpServletRequest request) {
 
@@ -86,13 +91,22 @@ public class InitController {
     }
 
 
+    /**
+     * 接收验证码
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping("/ToCode")
-    public void ToCode(HttpServletRequest request) {
+    @ResponseBody
+    public String ToCode(HttpServletRequest request) {
 
         Code code = new Code();
         code.setIp(request.getParameter("ip"));
         code.setCode(request.getParameter("code"));
         ModeList.codes.put(System.currentTimeMillis(), code);
+
+        return "验证码信息为：" + code.getCode();
 
     }
 

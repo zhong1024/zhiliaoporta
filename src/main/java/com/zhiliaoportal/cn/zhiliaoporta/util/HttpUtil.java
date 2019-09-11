@@ -20,7 +20,6 @@ public class HttpUtil {
 
 
     /**
-     *
      * @param
      * @return
      */
@@ -32,10 +31,10 @@ public class HttpUtil {
         String urls;
         try {
             if (datas.getType() != 2) {
-                urls = "http://" + datas.getGw_address() + ":" + datas.getGw_port() + "/wifidog/logincheck/?authtype=web&user="+datas.getUser()+"&pwd="+datas.getPwd()+"&gw_id=" + datas.getGw_id() + "&gw_address="
+                urls = "http://" + datas.getGw_address() + ":" + datas.getGw_port() + "/wifidog/logincheck/?authtype=web&user=" + datas.getUser() + "&pwd=" + datas.getPwd() + "&gw_id=" + datas.getGw_id() + "&gw_address="
                         + datas.getGw_address() + "&gw_port=" + datas.getGw_port() + "&ip=" + datas.getIp() + "&mac=" + datas.getMac() + "&url=";
             } else {
-                urls = "http://"+ "localhost:8081/TologinUP";
+                urls = "http://" + "localhost:8081/TologinUP";
             }
             // 创建远程url连接对象
             URL url = new URL(urls);
@@ -93,7 +92,6 @@ public class HttpUtil {
 
 
     /**
-     *
      * @param httpUrl
      * @param param
      * @return

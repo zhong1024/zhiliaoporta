@@ -59,37 +59,6 @@ public class Maps {
         return datas;
     }
 
-
-//    /**
-//     *
-//     * @param code
-//     * @return
-//     */
-//    public static boolean addMapCode(Code code) {
-//
-//        if (ModeList.codes.size() == 0) {
-//            ModeList.codes.put(System.currentTimeMillis(), code);
-//        } else {
-//            int s = 0;
-//            for (long keys : ModeList.codes.keySet()) {
-//                if (code.getIp().equals(ModeList.codes.get(keys).getIp())) {
-//                    break;
-//                }
-//                s++;
-//            }
-//            if (s == ModeList.codes.size()) {
-//                ModeList.codes.put(System.currentTimeMillis(), code);
-//            } else {
-//                try {
-//                    return false;
-//                } catch (final Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        return true;
-//    }
-
     /**
      * 从Map中移除
      *

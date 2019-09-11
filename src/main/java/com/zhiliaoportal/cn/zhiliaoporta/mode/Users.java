@@ -1,13 +1,17 @@
 package com.zhiliaoportal.cn.zhiliaoporta.mode;
 
 /**
+ * 登陆用户初始化实现类
+ *
  * @author Mr.Zhong
  * @create2019-09-09 14:44
  */
 public class Users {
 
+    //用户名
     private String user;
 
+    //密码
     private String pwd;
 
 

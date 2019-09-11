@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * MAP初始化
+ *
  * @author Mr.Zhong
  * @create2019-09-04 14:41
  */
@@ -20,9 +22,7 @@ public class ModeList {
 
     static {
         try {
-
             total = 0;
-
             user.put("0", new Users("admin0", "admin0"));
             user.put("1", new Users("admin1", "admin1"));
             user.put("2", new Users("admin2", "admin2"));
@@ -33,9 +33,6 @@ public class ModeList {
             user.put("7", new Users("admin7", "admin7"));
             user.put("8", new Users("admin8", "admin8"));
             user.put("9", new Users("admin9", "admin9"));
-
-            codes.put(1111L, new Code("0825", "192.168.1.190"));
-
         } catch (Exception e) {
             e.printStackTrace();
         }

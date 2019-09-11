@@ -1,7 +1,5 @@
 package com.zhiliaoportal.cn.zhiliaoporta.server;
 
-import java.net.InetSocketAddress;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -18,11 +16,6 @@ import static com.zhiliaoportal.cn.zhiliaoporta.util.Hex22String.arr2HexStr;
  * @create2019-08-30 9:30
  */
 public class ServerHandler extends SimpleChannelInboundHandler<DatagramPacket> {
-
-
-    boolean flag = false;
-    InetSocketAddress addr1 = null;
-    InetSocketAddress addr2 = null;
 
     /**
      * channelRead0 是对每个发送过来的UDP包进行处理

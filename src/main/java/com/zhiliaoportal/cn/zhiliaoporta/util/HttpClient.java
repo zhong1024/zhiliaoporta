@@ -46,12 +46,12 @@ public class HttpClient {
         String url;
         try {
             if (datas.getType() != 2) {
-                url = "http://" + datas.getGw_address() + ":" + datas.getGw_port() + "/wifidog/logincheck/?authtype=web&user="+datas.getUser()+"&pwd="+datas.getPwd()+"&gw_id=" + datas.getGw_id() + "&gw_address="
+                url = "http://" + datas.getGw_address() + ":" + datas.getGw_port() + "/wifidog/logincheck/?authtype=web&user=" + datas.getUser() + "&pwd=" + datas.getPwd() + "&gw_id=" + datas.getGw_id() + "&gw_address="
                         + datas.getGw_address() + "&gw_port=" + datas.getGw_port() + "&ip=" + datas.getIp() + "&mac=" + datas.getMac() + "&url=";
             } else {
-                url = "http://"+ "localhost:8081/TologinUP";
+                url = "http://" + "localhost:8081/TologinUP";
             }
-            System.out.println("URL:"+url);
+            System.out.println("URL:" + url);
             // 通过址默认配置创建一个httpClient实例
             httpClient = HttpClients.createDefault();
             // 创建httpGet远程连接实例
@@ -109,10 +109,10 @@ public class HttpClient {
         String result = "";
         String url;
         if (datas.getType() != 2) {
-            url = "http://" + datas.getGw_address() + ":" + datas.getGw_port() + "/wifidog/logincheck/?authtype=web&user="+datas.getUser()+"&pwd="+datas.getPwd()+"&gw_id=" + datas.getGw_id() + "&gw_address="
+            url = "http://" + datas.getGw_address() + ":" + datas.getGw_port() + "/wifidog/logincheck/?authtype=web&user=" + datas.getUser() + "&pwd=" + datas.getPwd() + "&gw_id=" + datas.getGw_id() + "&gw_address="
                     + datas.getGw_address() + "&gw_port=" + datas.getGw_port() + "&ip=" + datas.getIp() + "&mac=" + datas.getMac() + "&url=";
         } else {
-            url = "http://"+ "localhost:8081/TologinUP";
+            url = "http://" + "localhost:8081/TologinUP";
         }
         // 创建httpClient实例
         httpClient = HttpClients.createDefault();

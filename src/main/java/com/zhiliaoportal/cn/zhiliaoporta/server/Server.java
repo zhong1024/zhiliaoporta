@@ -23,7 +23,7 @@ public class Server {
                     .option(ChannelOption.SO_BROADCAST, true)
                     .handler(new ServerHandler());
 
-            b.bind(7402).sync().channel().closeFuture().await();
+            b.bind(7071).sync().channel().closeFuture().await();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
