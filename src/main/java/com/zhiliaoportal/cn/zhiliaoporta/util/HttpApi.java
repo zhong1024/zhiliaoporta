@@ -1,6 +1,7 @@
 package com.zhiliaoportal.cn.zhiliaoporta.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.apache.xpath.internal.SourceTree;
 import com.zhiliaoportal.cn.zhiliaoporta.mode.Datas;
 
 import java.io.BufferedOutputStream;
@@ -26,13 +27,14 @@ public class HttpApi {
      * @param datas
      */
     public static void Get(Datas datas) {
+        System.out.println(datas);
         try {
             URL url;
             if (datas.getType() != 2) {
-                url = new URL(uri + datas.getGw_address() + ":" + datas.getGw_port() + "/wifidog/logincheck/?authtype=web&user="+datas.getUser()+"&pwd="+datas.getPwd()+"&gw_id=" + datas.getGw_id() + "&gw_address="
+                url = new URL(uri + datas.getGw_address() + ":8080/wifidog/logincheck/?authtype=web&user=" + datas.getUser() + "&pwd=" + datas.getPwd() + "&gw_id=" + datas.getGw_id() + "&gw_address="
                         + datas.getGw_address() + "&gw_port=" + datas.getGw_port() + "&ip=" + datas.getIp() + "&mac=" + datas.getMac() + "&url=");
             } else {
-                url = new URL(uri + "localhost:8081/TologinUP");
+                url = new URL(uri + "localhost:8081/ToError");
             }
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 

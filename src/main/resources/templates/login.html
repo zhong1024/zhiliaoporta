@@ -17,11 +17,20 @@
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
     <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
     <script src="../static/js/jquery.min.js"></script>
-
     <![endif]-->
+    <style>
+        .text0 {
+            height: 50px;
+        }
+
+        .text01 {
+            width: 500px;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-
+<div class="text0"></div>
 <div class="text01">请关注公众号并从公众号中获取验证码即可连接网络</div>
 
 <div class="layui-fluid">
@@ -84,35 +93,31 @@
                     }
                 }
             });
-
             // 监听提交
             form.on('submit(submit)',
                 function (data) {
                     console.log(data);
                     // var sole = $('#sole').val();
                     $.ajax({
-                            type: "get",
-                            url: "/bigbang",
-                            data: {"code": document.getElementById('code').value},
-                            success: function (data) {
-                                alert(data)
-                                if (data == "false") {
-                                    layer.msg('验证码错误请重新输入', {icon: 2});
-                                } else if (data == "error") {
-                                    window.location.href = "/ToError";
-                                } else {
-                                    window.location.href = "/ToWin";
-                                }
-                            }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        type: "get",
+                        url: "/bigbang",
+                        data: {"code": document.getElementById('code').value},
+                        success: function (data) {
+                            if (data == "true") {
                                 window.location.href = "/ToWin";
-                                // alert(XMLHttpRequest.status);
-                                // alert(XMLHttpRequest.readyState);
-                                // alert(textStatus);
+                            } else if (data == "false") {
+                                layer.msg('验证码错误请重新输入', {icon: 2});
+                            } else {
+                                window.location.href = "/ToError";
                             }
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            window.location.href = "/ToWin";
+                            // alert(XMLHttpRequest.status);
+                            // alert(XMLHttpRequest.readyState);
+                            // alert(textStatus);
                         }
-                    )
+                    })
                     // alert(wportalPara.ip);
-                    //发异步，把数据提交给
                     // layer.alert("网络连接成功", {
                     //         icon: 6
                     //     }

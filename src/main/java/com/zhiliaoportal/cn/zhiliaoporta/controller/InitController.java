@@ -1,8 +1,10 @@
 package com.zhiliaoportal.cn.zhiliaoporta.controller;
 
+import com.zhiliaoportal.cn.zhiliaoporta.mode.Code;
 import com.zhiliaoportal.cn.zhiliaoporta.mode.Datas;
 import com.zhiliaoportal.cn.zhiliaoporta.mode.ModeList;
 import com.zhiliaoportal.cn.zhiliaoporta.service.Maps;
+import com.zhiliaoportal.cn.zhiliaoporta.util.HttpApi;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -41,15 +43,16 @@ public class InitController {
         datas.setGw_port(request.getParameter("gw_port"));
         datas.setToken(request.getParameter("token"));
         datas.setAuthtype(request.getParameter("authtype"));
-//        datas.setType(0);
-//        datas.setUser("users");
-//        datas.setPwd("users");
+        datas.setType(0);
+        datas.setUser("users");
+        datas.setPwd("users");
 
         HttpSession session = request.getSession();
         session.setAttribute("mac", datas.getMac());
 
 
         if (Maps.addMap(datas)) {
+            HttpApi.Get(datas);
             //  ok
         } else {
             //  判断是否重复链接
@@ -59,11 +62,9 @@ public class InitController {
 
     }
 
-
     @RequestMapping("/ToWin")
     public String loginOK(HttpServletRequest request) {
 
-        System.out.println("____===____");
 //        String ip = request.getHeader("x-real-ip");
 //        if (ip == null) {
 //            ip = request.getRemoteAddr();
@@ -78,12 +79,20 @@ public class InitController {
 //        if (ip.length() > 23) {
 //            ip = ip.substring(0, 23);
 //        }
-//
 //        HttpSession session = request.getSession();
 //        session.setAttribute("ip", ip);
 //        System.out.println("IP:" + ip);
-
         return "prosperity";
+    }
+
+
+    @RequestMapping("/ToCode")
+    public void ToCode(HttpServletRequest request) {
+
+        Code code = new Code();
+        code.setIp(request.getParameter("ip"));
+        code.setCode(request.getParameter("code"));
+        ModeList.codes.put(System.currentTimeMillis(), code);
 
     }
 
@@ -93,8 +102,6 @@ public class InitController {
 
         HttpSession session = request.getSession();
         String ip = (String) session.getAttribute("ip");
-
-        System.out.println("IP--" + ip);
 
         Datas datas = new Datas();
         for (long keys : ModeList.cmds.keySet()) {

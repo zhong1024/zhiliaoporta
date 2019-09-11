@@ -13,7 +13,7 @@ public class ModeList {
 
     public static Map<String, Users> user = new HashMap<>();
 
-    public static Map<String, Code> codes = new HashMap<>();
+    public static Map<Long, Code> codes = new HashMap<>();
 
     public static int total;
 
@@ -34,7 +34,7 @@ public class ModeList {
             user.put("8", new Users("admin8", "admin8"));
             user.put("9", new Users("admin9", "admin9"));
 
-            codes.put("0", new Code("0825", "192.168.1.190"));
+            codes.put(1111L, new Code("0825", "192.168.1.190"));
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -6,8 +6,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 /**
- * 巡视处理类
- *
  * @author Mr.Zhong
  * @create2019-09-04 15:10
  */
@@ -15,11 +13,13 @@ import org.springframework.scheduling.annotation.Scheduled;
 @EnableScheduling
 public class Patrol {
 
-
-    private int CYCLE = 300000; //      5*60000
-
+     private int CYCLE = 305000; //      5*60000
+    //private int CYCLE = 65000;  //65秒
     //private int CYCLER = 18000000;  //  5*60*60000
 
+    /**
+     * 间隔一秒执行
+     */
     @Scheduled(cron = "0/1 * * * * ?")
 
     public void timmer() {
@@ -28,18 +28,27 @@ public class Patrol {
 
 //        long dates = System.currentTimeMillis() - CYCLER;
 
-        new Thread(() -> {
-
-            for (long keys : ModeList.cmds.keySet()) {
-                if (keys < date) {
-                    //  用户超时处理
-                   Maps.removeMap(keys);
-                } else {
-                    //  没有超时的用户
-//                    System.out.println("__");
+        for (long keys : ModeList.cmds.keySet()) {
+            if (keys < date) {
+                //  用户超时处理
+                try {
+                    Maps.removeMap(keys);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        }).start();
+        }
+
+        for (long keys : ModeList.codes.keySet()) {
+            if (keys < date) {
+                try {
+                    //  验证信息超时处理
+                    ModeList.codes.remove(keys);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
 
     }

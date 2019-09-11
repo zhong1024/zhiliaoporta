@@ -5,12 +5,9 @@ import com.zhiliaoportal.cn.zhiliaoporta.mode.ModeList;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Mr.Zhong
@@ -41,24 +38,29 @@ public class ServiceController {
         if ("1256".equals(code)) {
             for (long keys : ModeList.cmds.keySet()) {
                 if (mac.equals(ModeList.cmds.get(keys).getMac())) {
-                    datas = ModeList.cmds.get(keys);
+                    ModeList.cmds.get(keys).setType(1);
+//                    datas = ModeList.cmds.get(keys);
+                    try {
+                        //Maps.removeMap(keys);   //数据添加后移除
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 }
             }
-
-            if (datas.getMac() != null && datas.getIp() != null) {
-                String keys = String.valueOf(ModeList.total % 10);
-                try {
-                    ModeList.total++;
-                    response.sendRedirect("http://" + datas.getGw_address() + ":8080/wifidog/logincheck/?authtype=web&user=" + ModeList.user.get(keys).getUser() + "&pwd=" + ModeList.user.get(keys).getPwd() + "&gw_id=br-lan&" +
-                            "gw_address=" + datas.getGw_address() + "&gw_port=" + datas.getGw_port() + "&ip=" + datas.getIp() + "&mac=" + datas.getMac() + "+&url=" + datas.getUrl());
-                    return "true";
-                } catch (final Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                return "error";
-            }
+//            if (datas.getMac() != null && datas.getIp() != null) {
+//                String keys = String.valueOf(ModeList.total % 10);
+//                try {
+//                    ModeList.total++;
+//                    response.sendRedirect("http://" + datas.getGw_address() + ":8080/wifidog/logincheck/?authtype=web&user=" + ModeList.user.get(keys).getUser() + "&pwd=" + ModeList.user.get(keys).getPwd() + "&gw_id=" + datas.getGw_id() + "&" +
+//                            "gw_address=" + datas.getGw_address() + "&gw_port=" + datas.getGw_port() + "&ip=" + datas.getIp() + "&mac=" + datas.getMac() + "+&url=" + datas.getUrl());
+//                    return "true";
+//                } catch (final Exception e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                return "error";
+//            }
         } else {
             return "false";
         }
@@ -66,13 +68,16 @@ public class ServiceController {
     }
 
 
-
+    /**
+     * 转发到异常显示界面
+     *
+     * @return
+     */
     @RequestMapping("/ToError")
-    public String ToError(){
+    public String ToError() {
 
         return "error";
     }
-
 
 
 }

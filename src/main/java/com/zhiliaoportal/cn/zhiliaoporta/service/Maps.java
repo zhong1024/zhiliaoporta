@@ -6,7 +6,7 @@ import com.zhiliaoportal.cn.zhiliaoporta.util.HttpApi;
 
 
 /**
- * Map管理实现类
+ * 数据管理实现类
  *
  * @author Mr.Zhong
  * @create2019-09-05 10:18
@@ -41,23 +41,68 @@ public class Maps {
                 }
             }
         }
-
         return true;
 
     }
+
+
+    /**
+     * @param datas
+     * @return
+     */
+    public static Datas addDatas(Datas datas) {
+        String keys = String.valueOf(ModeList.total % 10);
+        ModeList.total++;
+        datas.setUser(ModeList.user.get(keys).getUser());
+        datas.setPwd(ModeList.user.get(keys).getPwd());
+        datas.setType(1);
+        return datas;
+    }
+
+
+//    /**
+//     *
+//     * @param code
+//     * @return
+//     */
+//    public static boolean addMapCode(Code code) {
+//
+//        if (ModeList.codes.size() == 0) {
+//            ModeList.codes.put(System.currentTimeMillis(), code);
+//        } else {
+//            int s = 0;
+//            for (long keys : ModeList.codes.keySet()) {
+//                if (code.getIp().equals(ModeList.codes.get(keys).getIp())) {
+//                    break;
+//                }
+//                s++;
+//            }
+//            if (s == ModeList.codes.size()) {
+//                ModeList.codes.put(System.currentTimeMillis(), code);
+//            } else {
+//                try {
+//                    return false;
+//                } catch (final Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return true;
+//    }
 
     /**
      * 从Map中移除
      *
      * @param keys
      */
-    public static void removeMap(long keys) {
-        Datas datas;
-        datas = ModeList.cmds.get(keys);
+    public static void removeMap(long keys) throws Exception {
+
+        Datas datas = ModeList.cmds.get(keys);
+        if(datas.getType()==0) {
+            datas.setType(2);
+        }
+        HttpApi.Get(addDatas(datas));
         System.out.println("REMOVE:" + datas);
-//        if (datas.getType() == 1) {
-//            HttpApi.Get(datas);
-//        }
         ModeList.cmds.remove(keys);
         //  实体
     }
