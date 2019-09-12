@@ -1,6 +1,5 @@
 package com.zhiliaoportal.cn.zhiliaoporta.controller;
 
-import com.zhiliaoportal.cn.zhiliaoporta.mode.Code;
 import com.zhiliaoportal.cn.zhiliaoporta.mode.Datas;
 import com.zhiliaoportal.cn.zhiliaoporta.mode.ModeList;
 import com.zhiliaoportal.cn.zhiliaoporta.service.Maps;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -37,7 +37,7 @@ public class InitController {
      * @throws Exception
      */
     @RequestMapping("/login")
-    public String login(HttpServletRequest request) throws Exception {
+    public String login(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Datas datas = new Datas();
         datas.setUrl(request.getParameter("url"));
@@ -46,18 +46,16 @@ public class InitController {
         datas.setGw_id(request.getParameter("gw_id"));
         datas.setGw_address(request.getParameter("gw_address"));
         datas.setGw_port(request.getParameter("gw_port"));
-        datas.setToken(request.getParameter("token"));
-        datas.setAuthtype(request.getParameter("authtype"));
         datas.setType(0);
         datas.setUser("users");
         datas.setPwd("users");
-
         HttpSession session = request.getSession();
         session.setAttribute("mac", datas.getMac());
+
         if (Maps.addMap(datas) && datas.getMac() != null) {
             HttpApi.Get(datas);
         }
-        return "login";
+        return "wx";
 
     }
 
@@ -99,14 +97,40 @@ public class InitController {
      */
     @RequestMapping("/ToCode")
     @ResponseBody
-    public String ToCode(HttpServletRequest request) {
+    public String ToCode(HttpServletRequest request, HttpServletResponse response) {
 
-        Code code = new Code();
-        code.setIp(request.getParameter("ip"));
-        code.setCode(request.getParameter("code"));
-        ModeList.codes.put(System.currentTimeMillis(), code);
+//        Code code = new Code();
+//        code.setIp(request.getParameter("ip"));
+//        code.setCode(request.getParameter("code"));
+//        ModeList.codes.put(System.currentTimeMillis(), code);
 
-        return "验证码信息为：" + code.getCode();
+        String ip = request.getParameter("ip");
+
+//        HttpSession session = request.getSession();
+//        String mac = (String) session.getAttribute("mac");
+//        for (long key : ModeList.codes.keySet()) {
+//            if (code.equals(ModeList.codes.get(key).getCode())) {
+//                for (long keys : ModeList.cmds.keySet()) {
+//                    if (ModeList.codes.get(key).getIp().equals(ModeList.cmds.get(keys).getIp())) {
+//                        ModeList.cmds.get(keys).setType(1);
+//                        break;
+//                    }
+//                }
+//                break;
+//            } else {
+//                return "false";
+//            }
+//        }
+
+        for (long keys : ModeList.cmds.keySet()) {
+            if (ip.equals(ModeList.cmds.get(keys).getIp())) {
+                ModeList.cmds.get(keys).setType(1);
+                System.out.println("状态：" + ModeList.cmds.get(keys).getType());
+                return "true";
+            }
+        }
+
+        return "false";
 
     }
 
@@ -126,8 +150,6 @@ public class InitController {
         }
         if (datas.getIp() != null) {
             datas.setType(1);
-            datas.setUser("admins");
-            datas.setPwd("admins");
         }
 
         System.out.println("DATA:" + datas);

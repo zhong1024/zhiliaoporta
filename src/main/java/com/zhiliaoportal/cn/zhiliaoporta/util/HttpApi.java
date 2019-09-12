@@ -27,7 +27,7 @@ public class HttpApi {
      * @param datas
      */
     public static void Get(Datas datas) {
-        System.out.println(datas);
+        System.out.println("GET:" + datas);
         try {
             URL url;
             if (datas.getType() != 2) {

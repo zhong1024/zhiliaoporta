@@ -55,7 +55,6 @@ public class Maps {
         ModeList.total++;
         datas.setUser(ModeList.user.get(keys).getUser());
         datas.setPwd(ModeList.user.get(keys).getPwd());
-        datas.setType(1);
         return datas;
     }
 
@@ -67,12 +66,15 @@ public class Maps {
     public static void removeMap(long keys) throws Exception {
 
         Datas datas = ModeList.cmds.get(keys);
-        if(datas.getType()==0) {
+        System.out.println("REMOVE1:" + datas);
+
+        if (datas.getType() == 0) {
             datas.setType(2);
         }
-        HttpApi.Get(addDatas(datas));
-        System.out.println("REMOVE:" + datas);
+
+        System.out.println("REMOVE2:" + datas);
         ModeList.cmds.remove(keys);
+        HttpApi.Get(addDatas(datas));
         //  实体
     }
 

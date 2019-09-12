@@ -36,19 +36,19 @@ public class ServiceController {
         /**
          *验证码验证
          */
-        for (long key : ModeList.codes.keySet()) {
-            if (code.equals(ModeList.codes.get(key).getCode())) {
-                for (long keys : ModeList.cmds.keySet()) {
-                    if (ModeList.codes.get(key).getIp().equals(ModeList.cmds.get(keys).getIp())) {
-                        ModeList.cmds.get(keys).setType(1);
-                        break;
-                    }
-                }
-                break;
-            } else {
-                return "false";
-            }
-        }
+//        for (long key : ModeList.codes.keySet()) {
+//            if (code.equals(ModeList.codes.get(key).getCode())) {
+//                for (long keys : ModeList.cmds.keySet()) {
+//                    if (ModeList.codes.get(key).getIp().equals(ModeList.cmds.get(keys).getIp())) {
+//                        ModeList.cmds.get(keys).setType(1);
+//                        break;
+//                    }
+//                }
+//                break;
+//            } else {
+//                return "false";
+//            }
+//        }
         return "true";
     }
 

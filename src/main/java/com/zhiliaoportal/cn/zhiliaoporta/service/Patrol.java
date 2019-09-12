@@ -37,16 +37,16 @@ public class Patrol {
             }
         }
 
-        for (long keys : ModeList.codes.keySet()) {
-            if (keys < date) {
-                try {
-                    //  验证信息超时处理
-                    ModeList.codes.remove(keys);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+//        for (long keys : ModeList.codes.keySet()) {
+//            if (keys < date) {
+//                try {
+//                    //  验证信息超时处理
+//                    ModeList.codes.remove(keys);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
 
 
     }
